@@ -1,19 +1,26 @@
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Optional
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
-    # Database
+    # Database - supports both individual vars and DATABASE_URL
+    database_url: Optional[str] = None
     postgres_user: str = "obtracker"
     postgres_password: str = "obtracker_secure_password_change_me"
     postgres_db: str = "open_body_tracker"
-    postgres_host: str = "localhost"
+    postgres_host: str = "localhost"  # Default for local development; use 'db' for Docker
     postgres_port: int = 5432
     
+    class Config:
+        case_sensitive = False
+        env_prefix = ""
+    
     @property
-    def database_url(self) -> str:
+    def database_url_resolved(self) -> str:
+        if self.database_url:
+            return self.database_url
         return f"postgresql://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
     
     # Security
@@ -30,9 +37,6 @@ class Settings(BaseSettings):
     
     # File Storage
     photo_storage_path: str = "/app/photos"
-    
-    class Config:
-        case_sensitive = False
 
 
 settings = Settings()
