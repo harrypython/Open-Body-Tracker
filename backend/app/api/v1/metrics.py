@@ -6,10 +6,10 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from uuid import UUID
 
-from app.database import get_db
-from app.models.user import User
-from app.models.metric_code import MetricCode, MetricCategoryEnum
-from app.models.unit_code import UnitCode
+from ...database import get_db
+from ...models.user import User
+from ...models.metric_code import MetricCode, MetricCategoryEnum
+from ...models.unit_code import UnitCode
 from app.api.v1.auth import get_current_user
 
 router = APIRouter(prefix="/metrics", tags=["Metrics"])

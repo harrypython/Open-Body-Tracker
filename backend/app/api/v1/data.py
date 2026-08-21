@@ -12,12 +12,12 @@ from sqlalchemy.orm import Session
 from uuid import UUID
 from pydantic import BaseModel
 
-from app.database import get_db
-from app.models.user import User
-from app.models.assessment import Assessment
-from app.models.measurement import Measurement
-from app.models.metric_code import MetricCode
-from app.models.unit_code import UnitCode
+from ...database import get_db
+from ...models.user import User
+from ...models.assessment import Assessment
+from ...models.measurement import Measurement
+from ...models.metric_code import MetricCode
+from ...models.unit_code import UnitCode
 from app.api.v1.auth import get_current_user
 
 router = APIRouter(prefix="/data", tags=["Data"])
@@ -302,7 +302,7 @@ async def import_csv(
             
             side_value = meas_data.get('side', 'NONE')
             try:
-                from app.models.measurement import SideEnum
+                from appmodels.measurement import SideEnum
                 side = SideEnum(side_value)
             except ValueError:
                 side = SideEnum.NONE

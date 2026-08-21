@@ -53,21 +53,21 @@ Com base nos documentos `PROJECT_PLAN.md` e `functional-specification.md`, elabo
 ## 🔌 Fase 4: Rotas de API e Contratos de Dados (FastAPI)
 *Autenticação via JWT. Todas as rotas validam o `user_id` do token para isolamento de dados.*
 
-- [ ] **4.1. Autenticação e Perfil**
-  - [ ] `POST /api/v1/auth/register`: Cria usuário, hasheia senha.
-  - [ ] `POST /api/v1/auth/login`: Valida e retorna `access_token` (JWT).
-  - [ ] `GET /api/v1/user/profile`: Retorna dados estáticos (incluindo altura para BMI).
-  - [ ] `PUT /api/v1/user/profile`: Atualiza dados estáticos.
-- [ ] **4.2. Avaliações (O Contrato Crítico)**
-  - [ ] `POST /api/v1/assessments/new`:
+- [x] **4.1. Autenticação e Perfil**
+  - [x] `POST /api/v1/auth/register`: Cria usuário, hasheia senha.
+  - [x] `POST /api/v1/auth/login`: Valida e retorna `access_token` (JWT).
+  - [x] `GET /api/v1/user/profile`: Retorna dados estáticos (incluindo altura para BMI).
+  - [x] `PUT /api/v1/user/profile`: Atualiza dados estáticos.
+- [x] **4.2. Avaliações (O Contrato Crítico)**
+  - [x] `POST /api/v1/assessments/new`:
     - *Payload*: JSON estruturado (ver exemplo abaixo) + `photos` (multipart/form-data).
     - *Ação*: Converte unidades, valida as 7 dobras do J&P 7, salva no DB, calcula métricas derivadas.
-  - [ ] `GET /api/v1/assessments/history`: Retorna série temporal otimizada para gráficos (carregamento < 2s).
-  - [ ] `GET /api/v1/assessments/{id}`: Detalhes completos de uma avaliação.
-  - [ ] `POST /api/v1/assessments/import`: Upload de CSV, valida, faz preview e commit transacional.
-- [ ] **4.3. Portabilidade e Catálogo**
-  - [ ] `GET /api/v1/data/export`: Stream de CSV com todo o histórico.
-  - [ ] `GET /api/v1/metrics/catalog`: Retorna o catálogo de métricas e unidades para o frontend.
+  - [x] `GET /api/v1/assessments/history`: Retorna série temporal otimizada para gráficos (carregamento < 2s).
+  - [x] `GET /api/v1/assessments/{id}`: Detalhes completos de uma avaliação.
+  - [x] `POST /api/v1/assessments/import`: Upload de CSV, valida, faz preview e commit transacional.
+- [x] **4.3. Portabilidade e Catálogo**
+  - [x] `GET /api/v1/data/export`: Stream de CSV com todo o histórico.
+  - [x] `GET /api/v1/metrics/catalog`: Retorna o catálogo de métricas e unidades para o frontend.
 
 **Exemplo de Payload para `POST /api/v1/assessments/new`:**
 ```json
