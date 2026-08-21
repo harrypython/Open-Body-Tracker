@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from .config import settings
 from .database import engine, Base, get_db
 from .core.seeders import run_all_seeders
+from .api.v1 import auth_router, user_router, assessments_router, data_router, metrics_router
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -23,6 +24,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include API v1 routers
+app.include_router(auth_router, prefix="/api/v1")
+app.include_router(user_router, prefix="/api/v1")
+app.include_router(assessments_router, prefix="/api/v1")
+app.include_router(data_router, prefix="/api/v1")
+app.include_router(metrics_router, prefix="/api/v1")
 
 
 @app.get("/")
@@ -55,8 +63,3 @@ async def seed_database(db: Session = Depends(get_db)):
         return {"message": "Database seeded successfully"}
     except Exception as e:
         return {"error": str(e)}
-
-
-# TODO: Import and include API routers
-# from .api.v1 import api_router
-# app.include_router(api_router, prefix="/api/v1")
