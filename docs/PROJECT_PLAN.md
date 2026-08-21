@@ -96,21 +96,3 @@ This document outlines the phased approach for developing the Open Body Tracker 
     *   `storage`: Mapping the photo volume.
 
 ---
-
-## ✅ 5. Autonomous & Comprehensive Testing To-Do List
-
-This list contains independent, executable tasks that can be run automatically by CI/CD pipelines or end-to-end test runners (e.g., Cypress, Playwright).
-
-### 🧪 Testing Domain: Unit Tests (Backend Logic)
-*   [ ] **Skinfold Engine:** Given various combinations of skinfold measurements and the Jackson-Pollock 7-site protocol, assert that calculated Body Fat % and Fat Mass are mathematically correct.
-*   [ ] **Conversion Layer:** Test round-trip conversion (imperial $\leftrightarrow$ metric) for Weight and Circumference to ensure precision preservation.
-*   [ ] **Calculated Metrics:** Test the exact formulas for BMI and WHR.
-
-### 🧪 Testing Domain: Integration Tests (API Flow)
-*   [ ] **Data Import Validation:** Upload a mock CSV containing malformed data (e.g., non-numeric text for weight, incorrect date format) and assert that the backend rejects the batch data with detailed error messages *without* corrupting the existing database record.
-*   [ ] **Assessment Submission Flow:** Trigger a full `POST /api/v1/assessments/new` request with all required fields and verify that all associated records (`Measurement`, `Photo`) are created transactionally and correctly linked to the `User`.
-
-### 🧪 Testing Domain: End-to-End (E2E) Tests (User Journey)
-*   [ ] **E2E Journey 1: Full Tracking Cycle:** Simulate the process of submitting two assessments separated by time, testing the data pipeline from successful entry to visualization.
-*   [ ] **E2E Security Test: Self-Scope:** Verify that all endpoints strictly validate the current user's token, confirming zero data exposure across different user identities.
-*   [ ] **E2E Feature Test: Milestone Detection:** Test the process of creating two data points (one low, one high) and confirming the milestone engine detects and displays the personal best records correctly.
