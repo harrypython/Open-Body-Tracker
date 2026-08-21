@@ -12,12 +12,12 @@ from sqlalchemy.orm import Session
 from uuid import UUID
 from pydantic import BaseModel
 
-from appdatabase import get_db
-from appmodels.user import User
-from appmodels.assessment import Assessment
-from appmodels.measurement import Measurement
-from appmodels.metric_code import MetricCode
-from appmodels.unit_code import UnitCode
+from ...database import get_db
+from ...models.user import User
+from ...models.assessment import Assessment
+from ...models.measurement import Measurement
+from ...models.metric_code import MetricCode
+from ...models.unit_code import UnitCode
 from app.api.v1.auth import get_current_user
 
 router = APIRouter(prefix="/data", tags=["Data"])

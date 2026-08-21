@@ -10,15 +10,15 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from uuid import UUID
 
-from appdatabase import get_db
-from appmodels.user import User
-from appmodels.assessment import Assessment
-from appmodels.measurement import Measurement, SideEnum
-from appmodels.metric_code import MetricCode
-from appmodels.unit_code import UnitCode
-from appmodels.photo import Photo, PhotoAngleEnum
-from appservices.body_composition_calculator import BodyCompositionCalculator, Sex
-from appservices.unit_converter import UnitConverter
+from ...database import get_db
+from ...models.user import User
+from ...models.assessment import Assessment
+from ...models.measurement import Measurement, SideEnum
+from ...models.metric_code import MetricCode
+from ...models.unit_code import UnitCode
+from ...models.photo import Photo, PhotoAngleEnum
+from ...services.body_composition_calculator import BodyCompositionCalculator, Sex
+from ...services.unit_converter import UnitConverter
 from app.api.v1.auth import get_current_user
 
 router = APIRouter(prefix="/assessments", tags=["Assessments"])
