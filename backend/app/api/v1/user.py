@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from app.database import get_db
@@ -23,7 +23,7 @@ class UserProfileResponse(BaseModel):
     biological_sex: Optional[str] = None
     height_cm: Optional[float] = None
     default_unit_system: UnitSystemEnum
-    created_at: str
+    created_at: datetime
     
     class Config:
         from_attributes = True

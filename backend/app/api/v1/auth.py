@@ -1,5 +1,3 @@
-"""Authentication and authorization utilities."""
-
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -14,11 +12,10 @@ from ...models.user import User
 from ...config import settings
 
 # Password hashing context
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 # OAuth2 scheme for token extraction
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
-
 
 class TokenData(BaseModel):
     """Token data model."""
@@ -27,11 +24,11 @@ class TokenData(BaseModel):
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify a password against its hash.
-    
+
     Args:
         plain_password: Plain text password
         hashed_password: Hashed password
-        
+
     Returns:
         True if password matches, False otherwise
     """
@@ -40,10 +37,10 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def get_password_hash(password: str) -> str:
     """Hash a password.
-    
+
     Args:
         password: Plain text password
-        
+
     Returns:
         Hashed password
     """
@@ -52,11 +49,11 @@ def get_password_hash(password: str) -> str:
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     """Create a JWT access token.
-    
+
     Args:
         data: Data to encode in the token
         expires_delta: Optional expiration time delta
-        
+
     Returns:
         Encoded JWT token string
     """
@@ -65,7 +62,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=settings.access_token_expire_minutes)
-    
+
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
     return encoded_jwt
@@ -73,10 +70,10 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
 
 def verify_token(token: str) -> Optional[TokenData]:
     """Verify and decode a JWT token.
-    
+
     Args:
         token: JWT token string
-        
+
     Returns:
         TokenData if valid, None otherwise
     """
@@ -89,20 +86,19 @@ def verify_token(token: str) -> Optional[TokenData]:
     except JWTError:
         return None
 
-
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ) -> User:
     """Get the current authenticated user from the token.
-    
+
     Args:
         token: JWT token from the request
         db: Database session
-        
+
     Returns:
         The authenticated user
-        
+
     Raises:
         HTTPException: If authentication fails
     """
@@ -111,13 +107,13 @@ async def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    
+
     token_data = verify_token(token)
     if token_data is None:
         raise credentials_exception
-    
+
     user = db.query(User).filter(User.id == token_data.user_id).first()
     if user is None:
         raise credentials_exception
-    
+
     return user
