@@ -10,7 +10,7 @@ __pycache__/
 dist/
 build/
 # Dependencies
-.venv/
+node_modules/
 venv/
 node_modules/
 # Logs and temp files
