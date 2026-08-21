@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, [authState.token]);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, _password: string) => {
     // TODO: Implement actual API call
     // const response = await apiClient.post('/auth/login', { email, password });
     // const { access_token } = response.data;
