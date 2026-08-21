@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../contexts/AuthContext';
-import { Input } from './ui/Input';
-import { Button } from './ui/Button';
+import { useAuth } from '../contexts/AuthContext';
+import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button';
 
 export const LoginPage: React.FC = () => {
   const { t } = useTranslation();
