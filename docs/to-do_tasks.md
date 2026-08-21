@@ -5,16 +5,16 @@ Com base nos documentos `PROJECT_PLAN.md` e `functional-specification.md`, elabo
 # 🚀 Open Body Tracker: Guia de Desenvolvimento Passo a Passo
 
 ## 🏗️ Fase 1: Infraestrutura e Configuração Inicial
-- [ ] **1.1. Inicializar o Repositório**
-  - [ ] Criar estrutura de pastas: `/backend`, `/frontend`, `/docs`, `/docker`.
-  - [ ] Configurar `.gitignore` (ignorando `.env`, `node_modules`, `__pycache__`, volumes do docker).
-- [ ] **1.2. Configurar Docker Compose (`docker-compose.yml`)**
-  - [ ] Serviço `db`: PostgreSQL 15 (com variáveis de ambiente para user/pass/db e volume persistente `pgdata`).
-  - [ ] Serviço `backend`: Python 3.11+ (FastAPI), mapeando porta 8000 e volume de código.
-  - [ ] Serviço `frontend`: Node 20+ (Vite/React), mapeando porta 3000.
-  - [ ] Serviço `storage`: Volume mapeado para upload de fotos (`/app/storage/photos`).
-- [ ] **1.3. Configurar Variáveis de Ambiente (`.env`)**
-  - [ ] Definir `DATABASE_URL`, `SECRET_KEY`, `ALGORITHM` (para JWT), `CORS_ORIGINS`.
+- [x] **1.1. Inicializar o Repositório**
+  - [x] Criar estrutura de pastas: `/backend`, `/frontend`, `/docs`, `/docker`.
+  - [x] Configurar `.gitignore` (ignorando `.env`, `node_modules`, `__pycache__`, volumes do docker).
+- [x] **1.2. Configurar Docker Compose (`docker-compose.yml`)**
+  - [x] Serviço `db`: PostgreSQL 15 (com variáveis de ambiente para user/pass/db e volume persistente `pgdata`).
+  - [x] Serviço `backend`: Python 3.11+ (FastAPI), mapeando porta 8000 e volume de código.
+  - [x] Serviço `frontend`: Node 20+ (Vite/React), mapeando porta 3000.
+  - [x] Serviço `storage`: Volume mapeado para upload de fotos (`/app/storage/photos`).
+- [x] **1.3. Configurar Variáveis de Ambiente (`.env`)**
+  - [x] Definir `DATABASE_URL`, `SECRET_KEY`, `ALGORITHM` (para JWT), `CORS_ORIGINS`.
 
 ---
 
