@@ -1,7 +1,10 @@
+Com base nos documentos `PROJECT_PLAN.md` e `functional-specification.md`, elaborei um guia de desenvolvimento detalhado, estruturado como uma **To-Do List complexa e sequencial**. Este roteiro cobre desde a infraestrutura até os testes finais, detalhando as rotas de API, o schema do banco de dados e os formulários do frontend.
+
+---
+
 # 🚀 Open Body Tracker: Guia de Desenvolvimento Passo a Passo (v1.1)
 
-## 🏗️ Fase 1: Infraestrutura e Configuração Inicial
-
+## 🏗️ Fase 1: Infraestrutura e Configuração Inicial 
 - [x] **1.1. Inicializar o Repositório**
   - [x] Criar estrutura de pastas: `/backend`, `/frontend`, `/docs`, `/docker`.
   - [x] Configurar `.gitignore` (ignorando `.env`, `node_modules`, `__pycache__`, volumes do docker).
@@ -16,7 +19,6 @@
 ---
 
 ## 🗄️ Fase 2: Schema do Banco de Dados (Backend)
-
 *Foco: Integridade de dados, suporte a i18n e conversão de unidades. O banco sempre armazena na unidade base (kg, cm, mm).*
 
 - [ ] **2.1. Criar Modelos SQLAlchemy (ou Prisma)**
@@ -36,7 +38,6 @@
 ---
 
 ## 🧠 Fase 3: Lógica de Negócio e Motor de Cálculo (Backend)
-
 - [ ] **3.1. Camada de Conversão de Unidades**
   - [ ] Criar serviço `UnitConverter`: Converte qualquer entrada (ex: lbs, in) para a unidade base (kg, cm, mm) antes de salvar.
   - [ ] Implementar lógica de round-trip para exibição no frontend sem perda de precisão decimal.
@@ -50,7 +51,6 @@
 ---
 
 ## 🔌 Fase 4: Rotas de API e Contratos de Dados (FastAPI)
-
 *Autenticação via JWT. Todas as rotas validam o `user_id` do token para isolamento de dados.*
 
 - [ ] **4.1. Autenticação e Perfil**
@@ -70,7 +70,6 @@
   - [ ] `GET /api/v1/metrics/catalog`: Retorna o catálogo de métricas e unidades para o frontend.
 
 **Exemplo de Payload para `POST /api/v1/assessments/new`:**
-
 ```json
 {
   "assessment_date": "2023-10-27",
@@ -92,7 +91,6 @@
 ---
 
 ## 🎨 Fase 5: Fundação do Frontend (React + TS)
-
 - [ ] **5.1. Setup Inicial**
   - [ ] Iniciar projeto com Vite + React + TypeScript.
   - [ ] Instalar TailwindCSS, Radix UI, Recharts, React Hook Form + Zod, `react-i18next`, Axios.
@@ -107,16 +105,13 @@
 ---
 
 ## 📝 Fase 6: Formulários do Frontend (Detalhamento)
-
 *O coração da aplicação. Validados em tempo real, suportam i18n e as 27 métricas.*
 
 ### 📋 Formulário 1: Onboarding / Perfil do Usuário
-
 - [ ] **Campos:** `full_name`, `birth_date`, `biological_sex`, `height_cm`, `default_unit_system`, `consent_accepted`.
 - [ ] **Validação:** Idade > 10; Altura > 50cm e < 250cm.
 
 ### 📋 Formulário 2: Assistente de Nova Avaliação (Assessment Wizard)
-
 *Dividido em 4 passos. Usa `react-hook-form` com schema Zod aninhado.*
 
 - [ ] **Passo 1: Dados Gerais e Vitais**
@@ -138,13 +133,11 @@
   - [ ] Botões: "Salvar Rascunho" ou "Finalizar".
 
 ### 📋 Formulário 3: Importação de CSV
-
 - [ ] Área de Drag & Drop, Tela de Preview (5 linhas), Mapeamento de colunas via Dropdowns, Validação visual (linhas com erro em vermelho).
 
 ---
 
 ## 📊 Fase 7: Analytics e Visualização (Frontend)
-
 - [ ] **7.1. Dashboard (Home)**
   - [ ] Cards de "Última Avaliação" (Peso, BF%, BMI).
   - [ ] Gráfico de linha simples (Recharts) com tendência de peso dos últimos 3 meses.
@@ -160,7 +153,6 @@
 ---
 
 ## 🧪 Fase 8: Testes e Garantia de Qualidade (QA)
-
 - [ ] **8.1. Testes Unitários (Backend - Pytest)**
   - [ ] **Skinfold Engine**: Inserir dobras fixas do J&P 7 (ex: Peitoral=12, Axilar=10, Tríceps=15, Subescapular=14, Abdômen=20, Suprailíaca=11, Coxa=22) e assertar o % de Gordura exato.
   - [ ] **Conversion Layer**: Testar round-trip (10 lbs -> kg -> lbs = 10 lbs).
@@ -177,7 +169,6 @@
 ---
 
 ## 🚀 Fase 9: Polish, Acessibilidade e Deploy
-
 - [ ] **9.1. Acessibilidade (WCAG 2.1 AA)**
   - [ ] Garantir `<label>` associados em todos os inputs do wizard.
   - [ ] Adicionar tabelas ocultas (screen-reader only) nos gráficos do Recharts.

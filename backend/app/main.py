@@ -1,7 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+
 from .config import settings
-from .database import engine, Base
+from .database import engine, Base, get_db
+from .core.seeders import run_all_seeders
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -36,6 +39,22 @@ async def root():
 async def health_check():
     """Health check endpoint."""
     return {"status": "healthy"}
+
+
+@app.post("/seed")
+async def seed_database(db: Session = Depends(get_db)):
+    """Seed the database with initial catalog data.
+    
+    This endpoint populates the database with:
+    - Unit codes (kg, lbs, cm, in, mm, bpm, mmhg)
+    - Metric codes (27 metrics: vitals, circumferences, skinfolds)
+    - Skinfold protocols (Jackson-Pollock 7-site, 3-site)
+    """
+    try:
+        run_all_seeders(db)
+        return {"message": "Database seeded successfully"}
+    except Exception as e:
+        return {"error": str(e)}
 
 
 # TODO: Import and include API routers
