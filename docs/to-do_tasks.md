@@ -38,15 +38,15 @@ Com base nos documentos `PROJECT_PLAN.md` e `functional-specification.md`, elabo
 ---
 
 ## 🧠 Fase 3: Lógica de Negócio e Motor de Cálculo (Backend)
-- [ ] **3.1. Camada de Conversão de Unidades**
-  - [ ] Criar serviço `UnitConverter`: Converte qualquer entrada (ex: lbs, in) para a unidade base (kg, cm, mm) antes de salvar.
-  - [ ] Implementar lógica de round-trip para exibição no frontend sem perda de precisão decimal.
-- [ ] **3.2. Motor de Cálculo de Composição Corporal**
-  - [ ] Implementar fórmula de **Densidade Corporal** para Jackson-Pollock 7-site.
-  - [ ] Implementar fórmula de **Siri/Brozek** para converter Densidade em **Body Fat %**.
-  - [ ] Criar funções para calcular: **BMI** (Peso/Altura²), **WHR** (Cintura/Quadril), **Média Bilateral** e **Assimetria %** (ex: Braço D vs E).
-- [ ] **3.3. Motor de Milestones (Marcos)**
-  - [ ] Criar lógica para comparar a avaliação atual com o histórico e gerar "badges" (ex: "Menor Gordura Corporal", "Perdeu 5kg").
+- [x] **3.1. Camada de Conversão de Unidades**
+  - [x] Criar serviço `UnitConverter`: Converte qualquer entrada (ex: lbs, in) para a unidade base (kg, cm, mm) antes de salvar.
+  - [x] Implementar lógica de round-trip para exibição no frontend sem perda de precisão decimal.
+- [x] **3.2. Motor de Cálculo de Composição Corporal**
+  - [x] Implementar fórmula de **Densidade Corporal** para Jackson-Pollock 7-site.
+  - [x] Implementar fórmula de **Siri/Brozek** para converter Densidade em **Body Fat %**.
+  - [x] Criar funções para calcular: **BMI** (Peso/Altura²), **WHR** (Cintura/Quadril), **Média Bilateral** e **Assimetria %** (ex: Braço D vs E).
+- [x] **3.3. Motor de Milestones (Marcos)**
+  - [x] Criar lógica para comparar a avaliação atual com o histórico e gerar "badges" (ex: "Menor Gordura Corporal", "Perdeu 5kg").
 
 ---
 
