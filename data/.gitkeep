@@ -1,0 +1,3 @@
+# Keep these directories for Docker volume mounts
+postgres/
+photos/
