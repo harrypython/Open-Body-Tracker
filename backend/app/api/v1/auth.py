@@ -9,9 +9,9 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from passlib.context import CryptContext
 
-from ..database import get_db
-from ..models.user import User
-from ..config import settings
+from ...database import get_db
+from ...models.user import User
+from ...config import settings
 
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
