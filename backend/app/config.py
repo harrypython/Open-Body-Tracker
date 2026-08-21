@@ -1,12 +1,19 @@
 from pydantic_settings import BaseSettings
 from typing import List
+import os
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # Database
-    database_url: str = "postgresql://obtracker:obtracker@db:5432/open_body_tracker"
+    postgres_user: str = "obtracker"
+    postgres_password: str = "obtracker"
+    postgres_db: str = "open_body_tracker"
+    
+    @property
+    def database_url(self) -> str:
+        return f"postgresql://{self.postgres_user}:{self.postgres_password}@db:5432/{self.postgres_db}"
     
     # Security
     secret_key: str = "your-secret-key-change-me-in-production"
@@ -14,7 +21,11 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
     
     # CORS
-    cors_origins: List[str] = ["http://localhost:3000", "http://localhost:5173"]
+    cors_origins: str = "http://localhost:3000,http://localhost:5173"
+    
+    @property
+    def cors_origins_list(self) -> List[str]:
+        return [origin.strip() for origin in self.cors_origins.split(",")]
     
     # File Storage
     photo_storage_path: str = "/app/photos"
