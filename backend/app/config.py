@@ -1,15 +1,14 @@
 from pydantic_settings import BaseSettings
 from typing import List
-import os
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # Database
-    postgres_user: str = os.getenv("POSTGRES_USER", "obtracker")
-    postgres_password: str = os.getenv("POSTGRES_PASSWORD", "obtracker_secure_password_change_me")
-    postgres_db: str = os.getenv("POSTGRES_DB", "open_body_tracker")
+    postgres_user: str = "obtracker"
+    postgres_password: str = "obtracker_secure_password_change_me"
+    postgres_db: str = "open_body_tracker"
     
     @property
     def database_url(self) -> str:
@@ -31,7 +30,6 @@ class Settings(BaseSettings):
     photo_storage_path: str = "/app/photos"
     
     class Config:
-        env_file = ".env"
         case_sensitive = False
 
 
