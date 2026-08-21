@@ -1,46 +1,51 @@
-```
-# Logs and temp files
-*.log
-*.tmp
-*.swp
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
+# Docker-related
+.dockerenv
+Dockerfile.*
 
 # Dependencies
 node_modules/
 venv/
 .venv/
 __pycache__/
-.mypy_cache/
+*.egg-info/
 .pytest_cache/
+.mypy_cache/
+
+# Build artifacts
 dist/
 build/
 target/
-.gradle/
-
-# Compiled files
 *.pyc
 *.class
 *.o
+*.obj
 *.exe
 *.dll
 *.so
 *.a
-*.obj
 *.out
 
-# System files
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific
 .DS_Store
 Thumbs.db
 
-# Coverage
+# Coverage reports
 coverage/
 htmlcov/
 .coverage
@@ -64,8 +69,5 @@ htmlcov/
 *.Z
 *.lz
 *.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
-```
+data/postgres
+data/photos
