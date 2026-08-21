@@ -10,8 +10,12 @@ class Settings(BaseSettings):
     postgres_user: str = "obtracker"
     postgres_password: str = "obtracker_secure_password_change_me"
     postgres_db: str = "open_body_tracker"
-    postgres_host: str = "db"  # Default to 'db' for Docker network
+    postgres_host: str = "localhost"  # Default for local development; use 'db' for Docker
     postgres_port: int = 5432
+    
+    class Config:
+        case_sensitive = False
+        env_prefix = ""
     
     @property
     def database_url_resolved(self) -> str:
@@ -33,9 +37,6 @@ class Settings(BaseSettings):
     
     # File Storage
     photo_storage_path: str = "/app/photos"
-    
-    class Config:
-        case_sensitive = False
 
 
 settings = Settings()

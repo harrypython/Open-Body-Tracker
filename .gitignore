@@ -1,26 +1,58 @@
-# Examples 1:
-(empty)
-
-# Example 2 (Project with artifacts):
-# Compiled and build artifacts
-*.pyc
-__pycache__/
-*.o
-*.obj
-dist/
-build/
-# Dependencies
-node_modules/
-venv/
-node_modules/
-# Logs and temp files
-*.log
-*.tmp
-*.swp
+```
 # Environment
 .env
 .env.local
-.env.*
-# Editors
+*.env.*
+
+# Dependencies
+.venv/
+venv/
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/refs/heads/*
+!.git/refs/heads/main
+!.git/refs/heads/master
+
+# Build artifacts
+build/
+dist/
+*.egg
+*.egg-info/
+*.so
+.libs/
+.deps/
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+.hypothesis/
+
+# Docker
+.dockerenv
+Dockerfile*
+docker-compose*
+
+# IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+```
