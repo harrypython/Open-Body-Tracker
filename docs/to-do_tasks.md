@@ -4,7 +4,7 @@ Com base nos documentos `PROJECT_PLAN.md` e `functional-specification.md`, elabo
 
 # 🚀 Open Body Tracker: Guia de Desenvolvimento Passo a Passo (v1.1)
 
-## 🏗️ Fase 1: Infraestrutura e Configuração Inicial 
+## 🏗️ Fase 1: Infraestrutura e Configuração Inicial ✅ *(CONCLUÍDA)*
 - [x] **1.1. Inicializar o Repositório**
   - [x] Criar estrutura de pastas: `/backend`, `/frontend`, `/docs`, `/docker`.
   - [x] Configurar `.gitignore` (ignorando `.env`, `node_modules`, `__pycache__`, volumes do docker).
@@ -21,19 +21,19 @@ Com base nos documentos `PROJECT_PLAN.md` e `functional-specification.md`, elabo
 ## 🗄️ Fase 2: Schema do Banco de Dados (Backend)
 *Foco: Integridade de dados, suporte a i18n e conversão de unidades. O banco sempre armazena na unidade base (kg, cm, mm).*
 
-- [ ] **2.1. Criar Modelos SQLAlchemy (ou Prisma)**
-  - [ ] `User`: `id` (UUID), `email` (unique), `hashed_password`, `full_name`, `birth_date`, `biological_sex`, `height_cm`, `default_unit_system` (enum: METRIC, IMPERIAL), `created_at`.
-  - [ ] `MetricCode` (Catálogo): `id`, `key` (ex: `weight_kg`, `arm_right_cm`), `category` (vitals, circumference, skinfold), `is_bilateral` (boolean).
-  - [ ] `UnitCode`: `id`, `key` (ex: `kg`, `cm`, `mm`, `lbs`, `in`), `system_type` (METRIC, IMPERIAL), `conversion_factor_to_base` (float).
-  - [ ] `Assessment`: `id`, `user_id` (FK), `assessment_date`, `notes`, `protocol_used` (FK opcional), `created_at`.
-  - [ ] `Measurement`: `id`, `assessment_id` (FK), `metric_code_id` (FK), `unit_code_id` (FK), `value_raw` (float - *sempre na unidade base*), `side` (enum: RIGHT, LEFT, NONE).
-  - [ ] `SkinfoldProtocol`: `id`, `name` (ex: "Jackson-Pollock 7-site"), `formula_key`, `required_sites` (JSON/Array).
-  - [ ] `Photo`: `id`, `assessment_id` (FK), `file_path`, `angle` (enum: FRONT, SIDE, BACK), `uploaded_at`.
-- [ ] **2.2. Seeders (Dados Iniciais - Catálogo de 27 Métricas)**
-  - [ ] **Vitals:** `weight_kg`, `resting_hr_bpm`, `bp_systolic_mmhg`, `bp_diastolic_mmhg`.
-  - [ ] **Circumferences (cm):** `arm_right_cm`, `arm_left_cm`, `arm_right_contracted_cm`, `arm_left_contracted_cm`, `forearm_right_cm`, `forearm_left_cm`, `chest_cm`, `abdomen_cm`, `waist_cm`, `hip_cm`, `thigh_right_cm`, `thigh_left_cm`, `calf_right_cm`, `calf_left_cm`.
-  - [ ] **Skinfolds (mm):** `tricipital_mm`, `subscapular_mm`, `mid_axillary_mm`, `suprailiac_mm`, `pectoral_mm`, `abdominal_mm`, `thigh_skinfold_mm`, `bicipital_mm`.
-  - [ ] **Protocolo J&P 7:** Configurar o seeder para exigir as 7 dobras exatas: `pectoral`, `mid_axillary`, `tricipital`, `subscapular`, `abdominal`, `suprailiac`, `thigh_skinfold`.
+- [x] **2.1. Criar Modelos SQLAlchemy (ou Prisma)**
+  - [x] `User`: `id` (UUID), `email` (unique), `hashed_password`, `full_name`, `birth_date`, `biological_sex`, `height_cm`, `default_unit_system` (enum: METRIC, IMPERIAL), `created_at`.
+  - [x] `MetricCode` (Catálogo): `id`, `key` (ex: `weight_kg`, `arm_right_cm`), `category` (vitals, circumference, skinfold), `is_bilateral` (boolean).
+  - [x] `UnitCode`: `id`, `key` (ex: `kg`, `cm`, `mm`, `lbs`, `in`), `system_type` (METRIC, IMPERIAL), `conversion_factor_to_base` (float).
+  - [x] `Assessment`: `id`, `user_id` (FK), `assessment_date`, `notes`, `protocol_used` (FK opcional), `created_at`.
+  - [x] `Measurement`: `id`, `assessment_id` (FK), `metric_code_id` (FK), `unit_code_id` (FK), `value_raw` (float - *sempre na unidade base*), `side` (enum: RIGHT, LEFT, NONE).
+  - [x] `SkinfoldProtocol`: `id`, `name` (ex: "Jackson-Pollock 7-site"), `formula_key`, `required_sites` (JSON/Array).
+  - [x] `Photo`: `id`, `assessment_id` (FK), `file_path`, `angle` (enum: FRONT, SIDE, BACK), `uploaded_at`.
+- [x] **2.2. Seeders (Dados Iniciais - Catálogo de 27 Métricas)**
+  - [x] **Vitals:** `weight_kg`, `resting_hr_bpm`, `bp_systolic_mmhg`, `bp_diastolic_mmhg`.
+  - [x] **Circumferences (cm):** `arm_right_cm`, `arm_left_cm`, `arm_right_contracted_cm`, `arm_left_contracted_cm`, `forearm_right_cm`, `forearm_left_cm`, `chest_cm`, `abdomen_cm`, `waist_cm`, `hip_cm`, `thigh_right_cm`, `thigh_left_cm`, `calf_right_cm`, `calf_left_cm`.
+  - [x] **Skinfolds (mm):** `tricipital_mm`, `subscapular_mm`, `mid_axillary_mm`, `suprailiac_mm`, `pectoral_mm`, `abdominal_mm`, `thigh_skinfold_mm`, `bicipital_mm`.
+  - [x] **Protocolo J&P 7:** Configurar o seeder para exigir as 7 dobras exatas: `pectoral`, `mid_axillary`, `tricipital`, `subscapular`, `abdominal`, `suprailiac`, `thigh_skinfold`.
 
 ---
 
