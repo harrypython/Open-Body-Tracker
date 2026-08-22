@@ -4,6 +4,8 @@ import { useAuth } from './contexts/AuthContext';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { AssessmentWizardPage } from './pages/AssessmentWizardPage';
+import { ImportCsvPage } from './pages/ImportCsvPage';
 
 interface PrivateRouteProps {
   children: React.ReactNode;
@@ -11,11 +13,11 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
-  
+
   return <>{children}</>;
 };
 
@@ -37,6 +39,22 @@ export const AppRouter: React.FC = () => {
           element={
             <PrivateRoute>
               <SettingsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/assessment/new"
+          element={
+            <PrivateRoute>
+              <AssessmentWizardPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/import-csv"
+          element={
+            <PrivateRoute>
+              <ImportCsvPage />
             </PrivateRoute>
           }
         />

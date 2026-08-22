@@ -91,16 +91,16 @@ Com base nos documentos `PROJECT_PLAN.md` e `functional-specification.md`, elabo
 ---
 
 ## 🎨 Fase 5: Fundação do Frontend (React + TS)
-- [ ] **5.1. Setup Inicial**
-  - [ ] Iniciar projeto com Vite + React + TypeScript.
-  - [ ] Instalar TailwindCSS, Radix UI, Recharts, React Hook Form + Zod, `react-i18next`, Axios.
-- [ ] **5.2. Estrutura de Estado e Rotas**
-  - [ ] Configurar React Router (`/login`, `/dashboard`, `/assessments/new`, `/analytics`, `/settings`).
-  - [ ] Criar `AuthContext` (gerenciamento de JWT, interceptors do Axios).
-  - [ ] Configurar `i18n` (carregar `en.json` e `pt.json`).
-- [ ] **5.3. Componentes Base (Design System)**
-  - [ ] Criar `<Button>`, `<Input>`, `<Select>`, `<Card>`, `<Modal>`.
-  - [ ] Criar componente `<UnitToggle>` (Switch global Métrico/Imperial que altera a exibição localmente).
+- [x] **5.1. Setup Inicial**
+  - [x] Iniciar projeto com Vite + React + TypeScript.
+  - [x] Instalar TailwindCSS, Radix UI, Recharts, React Hook Form + Zod, `react-i18next`, Axios.
+- [x] **5.2. Estrutura de Estado e Rotas**
+  - [x] Configurar React Router (`/login`, `/dashboard`, `/assessments/new`, `/analytics`, `/settings`).
+  - [x] Criar `AuthContext` (gerenciamento de JWT, interceptors do Axios).
+  - [x] Configurar `i18n` (carregar `en.json` e `pt.json`).
+- [x] **5.3. Componentes Base (Design System)**
+  - [x] Criar `<Button>`, `<Input>`, `<Select>`, `<Card>`, `<Modal>`.
+  - [x] Criar componente `<UnitToggle>` (Switch global Métrico/Imperial que altera a exibição localmente).
 
 ---
 
