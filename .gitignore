@@ -1,54 +1,42 @@
-# Docker-related
-.dockerenv
-Dockerfile.*
-
+```
 # Dependencies
 node_modules/
-venv/
-.venv/
-__pycache__/
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
 
 # Build artifacts
 dist/
 build/
-target/
-*.pyc
-*.class
-*.o
-*.obj
-*.exe
-*.dll
-*.so
-*.a
-*.out
+*.js
+*.ts
+*.tsx
 
-# Logs and temporary files
+# Logs and temp files
 *.log
 *.tmp
 *.swp
-*.swo
 
-# Environment files
+# Environment
 .env
 .env.local
+*.env.*
 
-# Editors and IDEs
+# Editors
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# OS-specific
-.DS_Store
-Thumbs.db
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# Coverage reports
+# Coverage
 coverage/
 htmlcov/
 .coverage
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Compressed files
 *.zip
@@ -69,5 +57,8 @@ htmlcov/
 *.Z
 *.lz
 *.lzo
-data/postgres
-data/photos
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+```

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { TrendsModule, ComparisonView, MilestonesView, TimelinePhotos } from '../components/analytics';
 
 export const DashboardPage: React.FC = () => {
   const { t } = useTranslation();
@@ -11,44 +12,69 @@ export const DashboardPage: React.FC = () => {
         {t('dashboard.title')}
       </h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Last Assessment Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.lastAssessment')}</CardTitle>
+            <CardTitle className="text-base">{t('dashboard.lastAssessment')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600 dark:text-gray-400">
-              No assessments yet. Create your first assessment to see your data here.
-            </p>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                No assessments yet. Create your first assessment to see your data here.
+              </p>
+            </div>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.trends')}</CardTitle>
+            <CardTitle className="text-base">Weight Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600 dark:text-gray-400">
-              Track your progress over time with interactive charts.
-            </p>
+            <p className="text-3xl font-bold text-blue-600">-- kg</p>
+            <p className="text-sm text-gray-500">Last 3 months</p>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.milestones')}</CardTitle>
+            <CardTitle className="text-base">Body Fat %</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600 dark:text-gray-400">
-              Celebrate your achievements and personal records.
-            </p>
+            <p className="text-3xl font-bold text-green-600">--%</p>
+            <p className="text-sm text-gray-500">Latest measurement</p>
           </CardContent>
         </Card>
       </div>
+
+      {/* Trends Module - Weight graph for last 3 months */}
+      <div className="mb-8">
+        <TrendsModule />
+      </div>
+
+      {/* Comparison View */}
+      <div className="mb-8">
+        <ComparisonView />
+      </div>
+
+      {/* Milestones */}
+      <div className="mb-8">
+        <MilestonesView />
+      </div>
+
+      {/* Photo Timeline */}
+      <div className="mb-8">
+        <TimelinePhotos />
+      </div>
       
-      <div className="mt-8">
-        <Button variant="primary" size="lg">
+      {/* Quick Actions */}
+      <div className="mt-8 flex gap-4">
+        <Button variant="primary" size="lg" onClick={() => window.location.href = '/assessment/new'}>
           {t('assessment.new')}
+        </Button>
+        <Button variant="secondary" size="lg" onClick={() => window.location.href = '/import-csv'}>
+          Import CSV
         </Button>
       </div>
     </div>
