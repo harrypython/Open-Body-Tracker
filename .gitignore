@@ -1,1 +1,73 @@
-Nothing needs to be added to .gitignore since only a Python source file was modified and no build artifacts, dependencies, or temporary files were detected in the changes.
+# Docker-related
+.dockerenv
+Dockerfile.*
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Build artifacts
+dist/
+build/
+target/
+*.pyc
+*.class
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+data/postgres
+data/photos
