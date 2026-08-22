@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 
 export const LoginPage: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { login } = useAuth();
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -15,6 +17,7 @@ export const LoginPage: React.FC = () => {
     
     try {
       await login(email, password);
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       console.error('Login failed:', error);
     }
