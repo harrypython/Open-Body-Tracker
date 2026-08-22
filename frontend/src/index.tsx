@@ -1,11 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { createContext, ReactNode } from 'react';
 
-import { LanguageSwitcher } from '../components/ui/LanguageSwitcher';
-import { UnitToggle } from '../components/ui/UnitToggle';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
-import { AppRouter } from '../router';
+import { AppRouter } from './router';
 
 // --- Context definitions ---
 
