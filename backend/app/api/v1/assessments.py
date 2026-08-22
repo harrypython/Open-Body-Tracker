@@ -76,12 +76,13 @@ class AssessmentCreate(BaseModel):
 class MeasurementResponse(BaseModel):
     """Measurement response model."""
     id: UUID
-    metric_code_key: str
+    metric_code_key: str = Field(..., alias='metric_code_id')
     value_raw: float
-    unit_code_key: str
+    unit_code_key: str = Field(..., alias='unit_code_id')
     side: Optional[str] = None
-    
+
     class Config:
+        allow_population_by_field_name = True
         from_attributes = True
 
 
@@ -151,11 +152,55 @@ async def create_assessment(
     # Get metric and unit mappings
     metric_map = _get_metric_key_to_id_map(db)
     unit_map = _get_unit_key_to_id_map(db)
-    
+
+    # Ensure required metric and unit keys exist; otherwise instruct seeding
+    required_metrics = [
+        "weight_kg",
+        "resting_hr_bpm",
+        "bp_systolic_mmhg",
+        "bp_diastolic_mmhg",
+        "arm_right_cm",
+        "arm_left_cm",
+        "arm_right_contracted_cm",
+        "arm_left_contracted_cm",
+        "forearm_right_cm",
+        "forearm_left_cm",
+        "chest_cm",
+        "abdomen_cm",
+        "waist_cm",
+        "hip_cm",
+        "thigh_right_cm",
+        "thigh_left_cm",
+        "calf_right_cm",
+        "calf_left_cm",
+        "pectoral_mm",
+        "mid_axillary_mm",
+        "tricipital_mm",
+        "subscapular_mm",
+        "abdominal_mm",
+        "suprailiac_mm",
+        "thigh_skinfold_mm",
+        "bicipital_mm",
+    ]
+    required_units = ["kg", "bpm", "mmhg", "cm", "mm"]
+
+    missing_metrics = [m for m in required_metrics if m not in metric_map]
+    missing_units = [u for u in required_units if u not in unit_map]
+    if missing_metrics or missing_units:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=(
+                "Database missing metric or unit definitions. Run the /seed endpoint to initialize required data."
+                if not missing_metrics else
+                f"Missing metrics: {', '.join(missing_metrics)}"
+                if not missing_units else
+                f"Missing units: {', '.join(missing_units)}"
+            )
+        )
+
     # Validate Jackson-Pollock 7-site if that protocol is used
     if assessment_data.protocol_used == "JACKSON_POLLOCK_7":
         _validate_jackson_pollock_7_skinfolds(assessment_data.skinfolds)
-    
     # Create assessment record
     new_assessment = Assessment(
         user_id=current_user.id,
