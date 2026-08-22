@@ -6,8 +6,9 @@ import shutil
 from datetime import date, datetime
 from typing import Dict, List, Optional, Any
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
-from sqlalchemy.orm import Session
-from pydantic import BaseModel, Field
+from sqlalchemy.orm import Session, joinedload
+from pydantic import BaseModel, Field, field_validator, model_serializer
+from typing import Any
 from uuid import UUID
 
 from ...database import get_db
@@ -76,14 +77,23 @@ class AssessmentCreate(BaseModel):
 class MeasurementResponse(BaseModel):
     """Measurement response model."""
     id: UUID
-    metric_code_key: str = Field(..., alias='metric_code_id')
+    metric_code_key: str
     value_raw: float
-    unit_code_key: str = Field(..., alias='unit_code_id')
+    unit_code_key: str
     side: Optional[str] = None
 
     class Config:
-        allow_population_by_field_name = True
         from_attributes = True
+    
+    @model_serializer
+    def serialize_model(self):
+        return {
+            "id": self.id,
+            "metric_code_key": self.metric_code_key,
+            "value_raw": self.value_raw,
+            "unit_code_key": self.unit_code_key,
+            "side": self.side
+        }
 
 
 class AssessmentResponse(BaseModel):
@@ -98,6 +108,20 @@ class AssessmentResponse(BaseModel):
     
     class Config:
         from_attributes = True
+
+
+def _measurement_to_response(measurement: Measurement) -> MeasurementResponse:
+    """Convert a Measurement ORM object to MeasurementResponse DTO.
+    
+    This extracts the key strings from related MetricCode and UnitCode objects.
+    """
+    return MeasurementResponse(
+        id=measurement.id,
+        metric_code_key=measurement.metric_code.key if measurement.metric_code else "",
+        value_raw=measurement.value_raw,
+        unit_code_key=measurement.unit_code.key if measurement.unit_code else "",
+        side=measurement.side.value if measurement.side else None
+    )
 
 
 # Helper functions
@@ -318,10 +342,22 @@ async def create_assessment(
     db.commit()
     db.refresh(new_assessment)
     
-    # Load measurements for response
-    db.refresh(new_assessment)
+    # Load measurements with their related metric_code and unit_code for response
+    assessment_with_measurements = db.query(Assessment).options(
+        joinedload(Assessment.measurements).joinedload(Measurement.metric_code),
+        joinedload(Assessment.measurements).joinedload(Measurement.unit_code)
+    ).filter(Assessment.id == new_assessment.id).first()
     
-    return new_assessment
+    # Manually construct response to handle nested relationships
+    return {
+        "id": assessment_with_measurements.id,
+        "user_id": assessment_with_measurements.user_id,
+        "assessment_date": assessment_with_measurements.assessment_date,
+        "notes": assessment_with_measurements.notes,
+        "protocol_used": assessment_with_measurements.protocol_used,
+        "created_at": assessment_with_measurements.created_at,
+        "measurements": [_measurement_to_response(m) for m in assessment_with_measurements.measurements]
+    }
 
 
 @router.get("/history", response_model=List[AssessmentResponse])
@@ -333,11 +369,23 @@ async def get_assessments_history(
     
     Returns assessments ordered by date, with loading time < 2s.
     """
-    assessments = db.query(Assessment).filter(
+    assessments = db.query(Assessment).options(
+        joinedload(Assessment.measurements).joinedload(Measurement.metric_code),
+        joinedload(Assessment.measurements).joinedload(Measurement.unit_code)
+    ).filter(
         Assessment.user_id == current_user.id
     ).order_by(Assessment.assessment_date.desc()).all()
     
-    return assessments
+    # Manually construct response to handle nested relationships
+    return [{
+        "id": a.id,
+        "user_id": a.user_id,
+        "assessment_date": a.assessment_date,
+        "notes": a.notes,
+        "protocol_used": a.protocol_used,
+        "created_at": a.created_at,
+        "measurements": [_measurement_to_response(m) for m in a.measurements]
+    } for a in assessments]
 
 
 @router.get("/{assessment_id}", response_model=AssessmentResponse)
@@ -347,7 +395,10 @@ async def get_assessment(
     db: Session = Depends(get_db)
 ):
     """Get complete details of a specific assessment."""
-    assessment = db.query(Assessment).filter(
+    assessment = db.query(Assessment).options(
+        joinedload(Assessment.measurements).joinedload(Measurement.metric_code),
+        joinedload(Assessment.measurements).joinedload(Measurement.unit_code)
+    ).filter(
         Assessment.id == assessment_id,
         Assessment.user_id == current_user.id
     ).first()
@@ -358,7 +409,16 @@ async def get_assessment(
             detail="Assessment not found"
         )
     
-    return assessment
+    # Manually construct response to handle nested relationships
+    return {
+        "id": assessment.id,
+        "user_id": assessment.user_id,
+        "assessment_date": assessment.assessment_date,
+        "notes": assessment.notes,
+        "protocol_used": assessment.protocol_used,
+        "created_at": assessment.created_at,
+        "measurements": [_measurement_to_response(m) for m in assessment.measurements]
+    }
 
 
 @router.delete("/{assessment_id}", status_code=status.HTTP_204_NO_CONTENT)
