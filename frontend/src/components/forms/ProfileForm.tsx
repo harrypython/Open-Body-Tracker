@@ -2,37 +2,41 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
+import { Input } from '../ui/Input';
+import { Button } from '../ui/Button';
 
-// Validation schema
+// Validation schema matching Fase 6 requirements
 const ProfileSchema = z.object({
-  full_name: z.string().nonempty('Nome obrigatório'),
+  full_name: z.string().min(1, 'Required'),
   birth_date: z.string().refine((date) => {
     const today = new Date();
     const dob = new Date(date);
     const age = today.getFullYear() - dob.getFullYear() - ((today.getMonth() < dob.getMonth()) || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate()) ? 1 : 0);
     return age >= 10;
-  }, { message: 'A idade deve ser maior que 10 anos' }),
+  }, { message: 'Age must be greater than 10 years' }),
   biological_sex: z.enum(['male', 'female', 'other']),
-  height_cm: z.number().min(50, 'Altura mínima 50cm').max(250, 'Altura máxima 250cm'),
+  height_cm: z.number().min(50, 'Height must be > 50cm').max(250, 'Height must be < 250cm'),
   default_unit_system: z.enum(['metric', 'imperial']),
-  consent_accepted: z.literal(true, { errorMap: () => ({ message: 'Você deve aceitar as condições' }) })
+  consent_accepted: z.boolean().refine(val => val === true, { message: 'You must accept the terms' })
 });
 
 type ProfileForm = z.infer<typeof ProfileSchema>;
 
-const ProfileForm: React.FC = () => {
+export const ProfileForm: React.FC = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<ProfileForm>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<ProfileForm>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
       full_name: '',
       birth_date: '',
       biological_sex: 'male',
-      height_cm: 160,
+      height_cm: 170,
       default_unit_system: 'metric',
-      consent_accepted: false
+      consent_accepted: false as const
     }
   });
 
@@ -47,7 +51,7 @@ const ProfileForm: React.FC = () => {
           setValue('full_name', data.full_name ?? '');
           setValue('birth_date', data.birth_date ?? '');
           setValue('biological_sex', data.biological_sex ?? 'male');
-          setValue('height_cm', data.height_cm ?? 160);
+          setValue('height_cm', data.height_cm ?? 170);
           setValue('default_unit_system', data.default_unit_system ?? 'metric');
           setValue('consent_accepted', data.consent_accepted ?? false);
         }
@@ -69,68 +73,70 @@ const ProfileForm: React.FC = () => {
       });
       if (!res.ok) {
         const errResp = await res.json();
-        throw new Error(errResp.detail || 'Erro ao salvar perfil');
+        throw new Error(errResp.detail || 'Error saving profile');
       }
-      // Optionally show success toast
     } catch (err: any) {
-      setError(err.message || 'Erro desconhecido');
+      setError(err.message || 'Unknown error');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-4 max-w-lg" onSubmit={handleSubmit(onSubmit)}>
       {error && <div className="text-red-600">{error}</div>}
 
-      <div className="flex flex-col">
-        <label className="mb-1 font-medium" htmlFor="full_name">Nome Completo</label>
-        <input
-          id="full_name"
-          type="text"
-          {...register('full_name')}
-          className="border p-2 rounded"
-        />
-        {errors.full_name && <p className="text-sm text-red-500">{errors.full_name.message}</p>}
-      </div>
+      <Input
+        label={t('profile.fullName')}
+        id="full_name"
+        type="text"
+        {...register('full_name')}
+        error={errors.full_name?.message}
+      />
+
+      <Input
+        label={t('profile.birthDate')}
+        id="birth_date"
+        type="date"
+        {...register('birth_date')}
+        error={errors.birth_date?.message}
+      />
 
       <div className="flex flex-col">
-        <label className="mb-1 font-medium" htmlFor="birth_date">Data de Nascimento</label>
-        <input
-          id="birth_date"
-          type="date"
-          {...register('birth_date')}
-          className="border p-2 rounded"
-        />
-        {errors.birth_date && <p className="text-sm text-red-500">{errors.birth_date.message}</p>}
-      </div>
-
-      <div className="flex flex-col">
-        <label className="mb-1 font-medium" htmlFor="biological_sex">Sexo Biológico</label>
-        <select id="biological_sex" {...register('biological_sex')} className="border p-2 rounded">
-          <option value="male">Masculino</option>
-          <option value="female">Feminino</option>
-          <option value="other">Outro</option>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" htmlFor="biological_sex">
+          {t('profile.biologicalSex')}
+        </label>
+        <select
+          id="biological_sex"
+          {...register('biological_sex')}
+          className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+        >
+          <option value="male">{t('profile.male') || 'Male'}</option>
+          <option value="female">{t('profile.female') || 'Female'}</option>
+          <option value="other">{t('profile.other') || 'Other'}</option>
         </select>
       </div>
 
-      <div className="flex flex-col">
-        <label className="mb-1 font-medium" htmlFor="height_cm">Altura (cm)</label>
-        <input
-          id="height_cm"
-          type="number"
-          step="0.1"
-          {...register('height_cm', { valueAsNumber: true })}
-          className="border p-2 rounded"
-        />
-        {errors.height_cm && <p className="text-sm text-red-500">{errors.height_cm.message}</p>}
-      </div>
+      <Input
+        label={t('profile.height')}
+        id="height_cm"
+        type="number"
+        step="0.1"
+        {...register('height_cm', { valueAsNumber: true })}
+        error={errors.height_cm?.message}
+      />
 
       <div className="flex flex-col">
-        <label className="mb-1 font-medium" htmlFor="default_unit_system">Sistema de Unidade</label>
-        <select id="default_unit_system" {...register('default_unit_system')} className="border p-2 rounded">
-          <option value="metric">Métrico (kg, cm)</option>
-          <option value="imperial">Imperial (lb, in)</option>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" htmlFor="default_unit_system">
+          {t('profile.defaultUnitSystem')}
+        </label>
+        <select
+          id="default_unit_system"
+          {...register('default_unit_system')}
+          className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+        >
+          <option value="metric">{t('profile.metric')}</option>
+          <option value="imperial">{t('profile.imperial')}</option>
         </select>
       </div>
 
@@ -141,13 +147,13 @@ const ProfileForm: React.FC = () => {
           {...register('consent_accepted')}
           className="h-4 w-4"
         />
-        <label htmlFor="consent_accepted" className="select-none">Concordo com os Termos de Uso</label>
+        <label htmlFor="consent_accepted" className="text-sm">{t('profile.consentAccepted')}</label>
       </div>
       {errors.consent_accepted && <p className="text-sm text-red-500">{errors.consent_accepted.message}</p>}
 
-      <button type="submit" disabled={isSubmitting || loading} className="bg-blue-600 text-white px-4 py-2 rounded">
-        {isSubmitting || loading ? 'Salvando...' : 'Salvar Perfil'}
-      </button>
+      <Button type="submit" variant="primary" className="w-full" disabled={loading}>
+        {loading ? t('common.loading') : t('common.save')}
+      </Button>
     </form>
   );
 };

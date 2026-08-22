@@ -1,73 +1,49 @@
-# Docker-related
-.dockerenv
-Dockerfile.*
-
+```
 # Dependencies
 node_modules/
-venv/
-.venv/
-__pycache__/
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
+
+# Environment
+.env
+.env.local
+.env.*
 
 # Build artifacts
 dist/
 build/
-target/
-*.pyc
-*.class
-*.o
-*.obj
-*.exe
-*.dll
-*.so
-*.a
-*.out
+*.min.js
+*.min.css
+*.bundle.js
 
-# Logs and temporary files
+# Logs and temp files
 *.log
 *.tmp
-*.swp
-*.swo
 
-# Environment files
-.env
-.env.local
-
-# Editors and IDEs
+# Editors
 .vscode/
 .idea/
 *.swp
-*.swo
 
-# OS-specific
-.DS_Store
-Thumbs.db
-
-# Coverage reports
+# Coverage
 coverage/
 htmlcov/
 .coverage
 
-# Compressed files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-data/postgres
-data/photos
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.nox/
+*.cover
+*.log
+.DS_Store
+Thumbs.db
+```
