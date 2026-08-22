@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { TrendsModule, ComparisonView, MilestonesView, TimelinePhotos } from '../components/analytics';
+import { AssessmentList } from '../components/AssessmentList';
 
 export const DashboardPage: React.FC = () => {
   const { t } = useTranslation();
@@ -11,6 +12,11 @@ export const DashboardPage: React.FC = () => {
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
         {t('dashboard.title')}
       </h1>
+      
+      {/* Assessment List */}
+      <div className="mb-8">
+        <AssessmentList />
+      </div>
       
       {/* Last Assessment Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

@@ -1,7 +1,9 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { createContext, ReactNode } from 'react';
+import { useState } from 'react';
 
 import { AppRouter } from './router';
+import { Header } from './components/Header';
 
 // --- Context definitions ---
 
@@ -25,7 +27,7 @@ export const AuthContext = createContext<AuthContextValue | undefined>(undefined
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, _password: string) => {
     // Mock API call – replace with real authentication request.
     const fakeUser: User = {
       id: '1',
@@ -66,7 +68,6 @@ export const MainApp: React.FC = () => {
       <main className="min-h-screen bg-gray-100 dark:bg-gray-900">
         <AppRouter />
       </main>
-      <Footer />
     </AuthProvider>
   );
 };
